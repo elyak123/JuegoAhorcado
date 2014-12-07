@@ -1,4 +1,4 @@
-var palabra = "Tamarindo";
+var palabra = "TAMARINDO";
 
 //Declaracion de la clase ahorcado
 // se usa el argumento "con" para atraer una variable que fuera
@@ -22,17 +22,63 @@ function iniciar ()
 	canvas.height = 400;
 	var contexto = canvas.getContext("2d");
 	var hombre = new Ahorcado(contexto);
-	//insertar aqui condicional simple para eventos y ejecutar el switch
-	for (var i = 0; i <= palabra.length; i++)
+	var l = document.getElementById('letra');
+	var boton = document.getElementById("boton");
+	var encontrada = false;
+	var pista = document.getElementById("pista");
+	boton.addEventListener("click", ciclo);
+	var a = new Array();
+	for (var i = 0; i < palabra.length; i++)
+		{
+			a[i] = palabra.charAt(i)
+		}
+	var b = new Array();
+	for (var i = 0; i < palabra.length; i++)
 	{
-		if (palabra.charAt(i) == inputUsuario) 
-			{
-
-			}
-		else {hombre.iterar()}
-		
+		b[i] = "_ "
 	}
-	
+	var blabla = b.join(" ");
+	pista.innerText = blabla;
+
+	function ciclo()
+	{
+		var canvas = document.getElementById('c')
+		canvas.width = 500;
+		canvas.height = 400;
+		var contexto = canvas.getContext("2d");
+		var chucho = new Ahorcado(contexto);
+		encontrada = false;
+		console.log("Empiezas con " + chucho.intentos+" " + "intentos");
+		console.log("encontrada es false, por ahora")
+		letra = l.value;
+		letra = letra.toUpperCase();
+		
+	for (var i = 0; i < palabra.length; i++)
+		{
+		if (a[i] == letra) 
+			{
+				encontrada = true;
+				b[i] = letra;
+				blabla = b.join(" ");
+				console.log("encontrada es true");
+				console.log(b);
+			}
+		else {blabla = b.join(" ");};
+		console.log(blabla);
+		pista.innerText = blabla;
+		}
+	if (encontrada == true) 
+		{
+			console.log("encontrada, sin trazo");
+		} 
+		else
+			{
+			console.log("encontrada es false, por lo tanto se itera");
+			chucho.iterar();
+			chucho.intentos++;
+			console.log("ya llevas " + chucho.intentos + " intentos");
+			};
+	}
 }
 Ahorcado.prototype.dibujar = function() 
 {
