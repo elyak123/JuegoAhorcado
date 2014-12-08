@@ -40,7 +40,7 @@ function iniciar ()
 	function ciclo ()
 	{
 		var fallos;
-		fallos = this.intentos;
+		fallos = hombre.intentos;
 		console.log("inicia funcion ciclo");
 		var l = document.getElementById('letra');
 		encontrada = false;
@@ -74,6 +74,10 @@ function iniciar ()
 			console.log(hombre.intentos);
 			hombre.iterar(hombre.intentos);
 			console.log("ya llevas " + hombre.intentos + " intentos");
+			if (hombre.intentos >= hombre.maximo) 
+				{
+					alert("Has perdido, buscate un dicionario!!");
+				};
 			};
 	};
 }
