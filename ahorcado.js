@@ -22,11 +22,8 @@ function iniciar ()
 	canvas.height = 400;
 	var contexto = canvas.getContext("2d");
 	var hombre = new Ahorcado(contexto);
-	var l = document.getElementById('letra');
 	var boton = document.getElementById("boton");
 	var encontrada = false;
-	var pista = document.getElementById("pista");
-	boton.addEventListener("click", ciclo);
 	var a = new Array();
 	for (var i = 0; i < palabra.length; i++)
 		{
@@ -39,27 +36,26 @@ function iniciar ()
 	}
 	var blabla = b.join(" ");
 	pista.innerText = blabla;
-
-	function ciclo()
+	boton.addEventListener("click", ciclo);
+	function ciclo ()
 	{
-		var canvas = document.getElementById('c')
-		canvas.width = 500;
-		canvas.height = 400;
-		var contexto = canvas.getContext("2d");
-		var chucho = new Ahorcado(contexto);
+		var fallos;
+		fallos = this.intentos;
+		console.log("inicia funcion ciclo");
+		var l = document.getElementById('letra');
 		encontrada = false;
-		console.log("Empiezas con " + chucho.intentos+" " + "intentos");
+		console.log("Empiezas con " + fallos +" intentos");
 		console.log("encontrada es false, por ahora")
 		letra = l.value;
 		letra = letra.toUpperCase();
-		
+		var pista = document.getElementById("pista");
 	for (var i = 0; i < palabra.length; i++)
 		{
 		if (a[i] == letra) 
 			{
 				encontrada = true;
 				b[i] = letra;
-				blabla = b.join(" ");
+				this.blabla = b.join(" ");
 				console.log("encontrada es true");
 				console.log(b);
 			}
@@ -74,11 +70,12 @@ function iniciar ()
 		else
 			{
 			console.log("encontrada es false, por lo tanto se itera");
-			chucho.iterar();
-			chucho.intentos++;
-			console.log("ya llevas " + chucho.intentos + " intentos");
+			hombre.intentos ++;
+			console.log(hombre.intentos);
+			hombre.iterar(hombre.intentos);
+			console.log("ya llevas " + hombre.intentos + " intentos");
 			};
-	}
+	};
 }
 Ahorcado.prototype.dibujar = function() 
 {
@@ -94,11 +91,10 @@ Ahorcado.prototype.dibujar = function()
 	dibujo.stroke();
 	dibujo.closePath();
 };
-Ahorcado.prototype.iterar = function ()
+Ahorcado.prototype.iterar = function (intentos)
 {
-	var fallos = this.intentos;
-	fallos++;
-	switch (fallos)
+	console.log("se va a iterar con " + intentos + " intentos");
+	switch (intentos)
 	{
 		case 1:
 		this.cabeza();
@@ -118,6 +114,13 @@ Ahorcado.prototype.iterar = function ()
 		this.brazos();
 		this.ojos();
 	}
+}
+Ahorcado.prototype.contador = function()
+{
+	var fallos = this.intentos;
+	fallos ++;
+	console.log("el contador lleva " + fallos + " intentos");
+	return fallos;
 }
 
 Ahorcado.prototype.cabeza = function ()
