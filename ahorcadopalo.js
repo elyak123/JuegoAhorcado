@@ -9,6 +9,7 @@ var Ahorcado = function (con)
 	this.maximo = 5;
 	this.intentos = 0;
 	this.vivo = true;
+	this.dibujar();
 }
 // se puede constriur un nuevo "Ahorcado" desde fuera del constructor,
 // incluso dentro de otra funcion si se declara la variable primero
@@ -17,31 +18,10 @@ var Ahorcado = function (con)
 function iniciar () 
 {
 	var canvas = document.getElementById('c')
-	canvas.width = 600;
-	canvas.height = 450;
+	canvas.width = 500;
+	canvas.height = 400;
 	var contexto = canvas.getContext("2d");
 	var hombre = new Ahorcado(contexto);
-
-	hombre.fondo = new Image();
-	hombre.fondo.onload = function()
-	{
-		hombre.CargarFondo(hombre.fondo, 0, 0);		
-	}
-	hombre.fondo.src = "Fondo.jpg";
-
-
-	hombre.dibujar();
-	hombre.cabeza = new Image();
-	hombre.cabeza.src = "Cabeza.png";
-	hombre.brazoDerecho = new Image();
-	hombre.brazoDerecho.src = "Brazo derecho.png";
-	hombre.brazoIzquierdo = new Image();
-	hombre.brazoIzquierdo.src = "Brazo izquierdo.png";
-	hombre.piernas = new Image();
-	hombre.piernas.src = "Piernas.png";
-	hombre.torso = new Image();
-	hombre.torso.src = "torso.png";
-
 	var boton = document.getElementById("boton");
 	var encontrada = false;
 	var a = new Array();
@@ -56,17 +36,6 @@ function iniciar ()
 	}
 	var blabla = b.join(" ");
 	pista.innerText = blabla;
-	function iterar (fallos)
-	{
-		switch (fallos)
-		{
-			case 1:
-			hombre.render(hombre.cabeza, 0, 0);
-			break;
-			case 2:
-			hombre.render(hombre.torso, 0, 0);
-		}
-	}
 	boton.addEventListener("click", ciclo);
 	function ciclo ()
 	{
@@ -114,8 +83,7 @@ function iniciar ()
 }
 Ahorcado.prototype.dibujar = function() 
 {
-	console.log("dibujo del poste");
-	this.CargarFondo(this.fondo, 0, 0);
+	// dibujo del poste
 	var dibujo = this.contexto;
 	dibujo.beginPath();
 	dibujo.moveTo(150,100);
@@ -127,15 +95,66 @@ Ahorcado.prototype.dibujar = function()
 	dibujo.stroke();
 	dibujo.closePath();
 };
-Ahorcado.prototype.render = function (dibujo, x, y)
+Ahorcado.prototype.iterar = function (intentos)
 {
-	this.dibujo = dibujo;
-	this.x = x;
-	this.y = y;
-	var contexto = this.contexto;
-	contexto.drawImage(this.dibujo, this.x, this.y);
+	console.log("se va a iterar con " + intentos + " intentos");
+	switch (intentos)
+	{
+		case 1:
+		this.cabeza();
+		break;
+		case 2:
+		this.cabeza();
+		this.torso();
+		break;
+		case 3: 
+		this.cabeza();
+		this.torso();
+		this.brazos();
+		break;
+		case 4:
+		this.cabeza();
+		this.torso();
+		this.brazos();
+		this.ojos();
+	}
+}
+Ahorcado.prototype.contador = function()
+{
+	var fallos = this.intentos;
+	fallos ++;
+	console.log("el contador lleva " + fallos + " intentos");
+	return fallos;
 }
 
+Ahorcado.prototype.cabeza = function ()
+{
+	var dibujo = this.contexto;
+	dibujo.beginPath();
+	dibujo.arc(150, 140, 40, 0, Math.PI * 2, false);
+	dibujo.strokeStyle = "red"
+	dibujo.lineWidth = 5;
+	dibujo.stroke();
+	dibujo.closePath();
+}
+Ahorcado.prototype.torso = function() 
+{
+	var dibujo = this.contexto;
+	dibujo.beginPath();
+	dibujo.moveTo(150, 180);
+	dibujo.lineTo(150, 290);
+	dibujo.stroke();
+
+};
+Ahorcado.prototype.brazos = function()
+{
+	var dibujo = this.contexto;
+	dibujo.beginPath();
+	dibujo.moveTo(176, 230);
+	dibujo.lineTo(150, 180);
+	dibujo.lineTo(125, 230);
+	dibujo.stroke();
+}
 Ahorcado.prototype.ojos = function ()
 {
 	var dibujo = this.contexto;
@@ -153,13 +172,4 @@ Ahorcado.prototype.ojos = function ()
 	dibujo.lineTo(165, 130);
 	dibujo.stroke();
 	dibujo.closePath();
-}
-Ahorcado.prototype.CargarFondo = function (dibujo, x, y)
-{
-	this.dibujo = dibujo;
-	this.x = x;
-	this.y = y;
-	var contexto = this.contexto;
-	contexto.drawImage(this.dibujo, x, y);
-	console.log("fondo cargado");
 }
