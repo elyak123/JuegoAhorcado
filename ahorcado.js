@@ -3,11 +3,11 @@ var palabra = "TAMARINDO";
 //Declaracion de la clase ahorcado
 // se usa el argumento "con" para atraer una variable que fuera
 //que se encuentra fuera de la funcion
-var Ahorcado = function (con)
+var Ahorcado = function (con, intentos)
 {
 	this.contexto = con;
 	this.maximo = 5;
-	this.intentos = 0;
+	this.intentos = intentos;
 	this.vivo = true;
 	this.dibujar();
 }
@@ -21,7 +21,8 @@ function iniciar ()
 	canvas.width = 600;
 	canvas.height = 450;
 	var contexto = canvas.getContext("2d");
-	var hombre = new Ahorcado(contexto);
+	var intentos = 0;
+	var hombre = new Ahorcado(contexto, intentos);
 
 	//hombre.fondo = new Image();
 	
@@ -54,23 +55,26 @@ function iniciar ()
 	{
 		switch (fallos)
 		{
+			case 5:
+			hombre.render(hombre.piernas, 0, 0);
+			case 4:
+			hombre.render(hombre.brazoIzquierdo, 0, 0);
+			case 3:
+			hombre.render(hombre.brazoDerecho, 0, 0);
+			case 2: 
+			hombre.render(hombre.torso, 0, 0);
 			case 1:
 			hombre.render(hombre.cabeza, 0, 0);
 			console.log("se va a iterar con " + fallos +" intentos");
-			break;
-			case 2:
-			hombre.render(hombre.torso, 0, 0);
 		}
 	}
 	boton.addEventListener("click", ciclo);
 	function ciclo ()
 	{
-		var fallos;
-		fallos = hombre.intentos;
 		console.log("inicia funcion ciclo");
 		var l = document.getElementById('letra');
 		encontrada = false;
-		console.log("Empiezas con " + fallos +" intentos");
+		console.log("Empiezas con " + hombre.intentos +" intentos");
 		console.log("encontrada es false, por ahora")
 		letra = l.value;
 		letra = letra.toUpperCase();
@@ -96,11 +100,11 @@ function iniciar ()
 		else
 			{
 			console.log("encontrada es false, por lo tanto se itera");
-			fallos ++;
-			console.log(fallos);
-			iterar(fallos);
-			console.log("ya llevas " + fallos + " intentos");
-			if (fallos >= hombre.maximo) 
+			hombre.intentos ++;
+			console.log(hombre.intentos);
+			iterar(hombre.intentos);
+			console.log("ya llevas " + hombre.intentos + " intentos");
+			if (hombre.intentos >= hombre.maximo) 
 				{
 					alert("Has perdido, buscate un dicionario!!");
 				};
