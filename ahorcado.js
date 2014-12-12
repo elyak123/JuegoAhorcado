@@ -9,6 +9,7 @@ var Ahorcado = function (con)
 	this.maximo = 5;
 	this.intentos = 0;
 	this.vivo = true;
+	this.dibujar();
 }
 // se puede constriur un nuevo "Ahorcado" desde fuera del constructor,
 // incluso dentro de otra funcion si se declara la variable primero
@@ -22,15 +23,8 @@ function iniciar ()
 	var contexto = canvas.getContext("2d");
 	var hombre = new Ahorcado(contexto);
 
-	hombre.fondo = new Image();
-	hombre.fondo.onload = function()
-	{
-		hombre.CargarFondo(hombre.fondo, 0, 0);		
-	}
-	hombre.fondo.src = "Fondo.jpg";
-
-
-	hombre.dibujar();
+	//hombre.fondo = new Image();
+	
 	hombre.cabeza = new Image();
 	hombre.cabeza.src = "Cabeza.png";
 	hombre.brazoDerecho = new Image();
@@ -62,6 +56,7 @@ function iniciar ()
 		{
 			case 1:
 			hombre.render(hombre.cabeza, 0, 0);
+			console.log("se va a iterar con " + fallos +" intentos");
 			break;
 			case 2:
 			hombre.render(hombre.torso, 0, 0);
@@ -101,11 +96,11 @@ function iniciar ()
 		else
 			{
 			console.log("encontrada es false, por lo tanto se itera");
-			hombre.intentos ++;
-			console.log(hombre.intentos);
-			hombre.iterar(hombre.intentos);
-			console.log("ya llevas " + hombre.intentos + " intentos");
-			if (hombre.intentos >= hombre.maximo) 
+			fallos ++;
+			console.log(fallos);
+			iterar(fallos);
+			console.log("ya llevas " + fallos + " intentos");
+			if (fallos >= hombre.maximo) 
 				{
 					alert("Has perdido, buscate un dicionario!!");
 				};
@@ -114,18 +109,24 @@ function iniciar ()
 }
 Ahorcado.prototype.dibujar = function() 
 {
-	console.log("dibujo del poste");
-	this.CargarFondo(this.fondo, 0, 0);
 	var dibujo = this.contexto;
-	dibujo.beginPath();
-	dibujo.moveTo(150,100);
-	dibujo.lineTo(150,50);
-	dibujo.lineTo(400,50);
-	dibujo.lineTo(400,350);
-	dibujo.lineWidth = 10;
-	dibujo.strokeStyle = "#000000";
-	dibujo.stroke();
-	dibujo.closePath();
+	this.fondo = new Image();
+	this.fondo.src = "Fondo.jpg";
+	this.fondo.onload = function()
+	{
+		dibujo.drawImage(this, 0, 0);
+		console.log(this);
+		console.log("dibujo del poste");
+		dibujo.beginPath();
+		dibujo.moveTo(150,100);
+		dibujo.lineTo(150,50);
+		dibujo.lineTo(400,50);
+		dibujo.lineTo(400,350);
+		dibujo.lineWidth = 10;
+		dibujo.strokeStyle = "#000000";
+		dibujo.stroke();
+		dibujo.closePath();
+	}
 };
 Ahorcado.prototype.render = function (dibujo, x, y)
 {
@@ -153,13 +154,4 @@ Ahorcado.prototype.ojos = function ()
 	dibujo.lineTo(165, 130);
 	dibujo.stroke();
 	dibujo.closePath();
-}
-Ahorcado.prototype.CargarFondo = function (dibujo, x, y)
-{
-	this.dibujo = dibujo;
-	this.x = x;
-	this.y = y;
-	var contexto = this.contexto;
-	contexto.drawImage(this.dibujo, x, y);
-	console.log("fondo cargado");
 }
