@@ -53,18 +53,19 @@ function iniciar ()
 	pista.innerText = blabla;
 	function iterar (fallos)
 	{
+		var escala = 0.452488;
 		switch (fallos)
 		{
 			case 5:
-			hombre.render(hombre.piernas, 0, 0);
+			hombre.render(hombre.piernas, 50, 0);
 			case 4:
-			hombre.render(hombre.brazoIzquierdo, 0, 0);
+			hombre.render(hombre.brazoIzquierdo, 5, 154, (226 * escala), (329 * escala));
 			case 3:
-			hombre.render(hombre.brazoDerecho, 0, 0);
+			hombre.render(hombre.brazoDerecho, 136, 17, (245 * escala), (660 * escala));
 			case 2: 
-			hombre.render(hombre.torso, 0, 0);
+			hombre.render(hombre.torso, 93, 155, (159 * escala), (158 * escala));
 			case 1:
-			hombre.render(hombre.cabeza, 0, 0);
+			hombre.render(hombre.cabeza, 45, -10, (396 * escala),  (442 * escala));
 			console.log("se va a iterar con " + fallos +" intentos");
 		}
 	}
@@ -107,7 +108,7 @@ function iniciar ()
 			if (hombre.intentos >= hombre.maximo) 
 				{
 					alert("Has perdido, buscate un dicionario!!");
-				};
+				}
 			};
 	};
 }
@@ -132,13 +133,16 @@ Ahorcado.prototype.dibujar = function()
 		dibujo.closePath();
 	}
 };
-Ahorcado.prototype.render = function (dibujo, x, y)
+Ahorcado.prototype.render = function (dibujo, x, y, ancho, alto)
 {
 	this.dibujo = dibujo;
+	console.log(dibujo);
 	this.x = x;
 	this.y = y;
+	this.ancho = ancho;
+	this.alto = alto;
 	var contexto = this.contexto;
-	contexto.drawImage(this.dibujo, this.x, this.y);
+	contexto.drawImage(this.dibujo, this.x, this.y, this.ancho, this.alto);
 }
 
 Ahorcado.prototype.ojos = function ()
