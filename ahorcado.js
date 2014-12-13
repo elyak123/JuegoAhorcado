@@ -23,9 +23,6 @@ function iniciar ()
 	var contexto = canvas.getContext("2d");
 	var intentos = 0;
 	var hombre = new Ahorcado(contexto, intentos);
-
-	//hombre.fondo = new Image();
-	
 	hombre.cabeza = new Image();
 	hombre.cabeza.src = "Cabeza.png";
 	hombre.brazoDerecho = new Image();
@@ -94,6 +91,7 @@ function iniciar ()
 		else {blabla = b.join(" ");};
 		console.log(blabla);
 		pista.innerText = blabla;
+		l.value = "";
 		}
 	if (encontrada == true) 
 		{
@@ -108,7 +106,8 @@ function iniciar ()
 			console.log("ya llevas " + hombre.intentos + " intentos");
 			if (hombre.intentos >= hombre.maximo) 
 				{
-					alert("Has perdido, buscate un dicionario!!");
+					console.log("Has perdido, buscate un diccionario!!")
+					alert("Has perdido, buscate un diccionario!!");
 				}
 			};
 	};
