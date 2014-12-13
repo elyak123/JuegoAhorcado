@@ -57,7 +57,7 @@ function iniciar ()
 		switch (fallos)
 		{
 			case 5:
-			hombre.render(hombre.piernas, 50, 0);
+			hombre.render(hombre.piernas, -30, 196, (670 * escala), (509 * escala));
 			case 4:
 			hombre.render(hombre.brazoIzquierdo, 5, 154, (226 * escala), (329 * escala));
 			case 3:
@@ -66,6 +66,7 @@ function iniciar ()
 			hombre.render(hombre.torso, 93, 155, (159 * escala), (158 * escala));
 			case 1:
 			hombre.render(hombre.cabeza, 45, -10, (396 * escala),  (442 * escala));
+
 			console.log("se va a iterar con " + fallos +" intentos");
 		}
 	}
