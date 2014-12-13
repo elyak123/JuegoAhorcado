@@ -1,13 +1,27 @@
-var palabra = "TAMARINDO";
+var personajes = 
+
+["krillin", "bulma", "goku", "MaestroRoshi", "yamcha", "tenshinhan", "MrSatan", "MrPopo", 
+"milk", "gohan", "trunks", "goten", "vegeta", "majinBoo", "Napa", "Gogeta", "picolo", "kamisama", 
+"dende", "freezer", "cell", "videl", "yajirobe", "Babidi", "Broly", "Raditts", "chaoz"]
+var enMinuscula = personajes[getRandomArbitrary(0, 27)];
+var palabra = enMinuscula.toUpperCase();
+console.log(palabra);
+
+function getRandomArbitrary(min, max) 
+{
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 //Declaracion de la clase ahorcado
 // se usa el argumento "con" para atraer una variable que fuera
 //que se encuentra fuera de la funcion
-var Ahorcado = function (con, intentos)
+var Ahorcado = function (con, intentos, aciertos, palabra)
 {
 	this.contexto = con;
 	this.maximo = 5;
 	this.intentos = intentos;
+	this.aciertos = aciertos;
+	this.palabra = palabra;
 	this.vivo = true;
 	this.dibujar();
 }
@@ -22,7 +36,8 @@ function iniciar ()
 	canvas.height = 450;
 	var contexto = canvas.getContext("2d");
 	var intentos = 0;
-	var hombre = new Ahorcado(contexto, intentos);
+	var aciertos = 0;
+	var hombre = new Ahorcado(contexto, intentos, aciertos, palabra);
 	hombre.cabeza = new Image();
 	hombre.cabeza.src = "Cabeza.png";
 	hombre.brazoDerecho = new Image();
@@ -33,7 +48,6 @@ function iniciar ()
 	hombre.piernas.src = "Piernas.png";
 	hombre.torso = new Image();
 	hombre.torso.src = "torso.png";
-
 	var boton = document.getElementById("boton");
 	var encontrada = false;
 	var a = new Array();
@@ -63,7 +77,6 @@ function iniciar ()
 			hombre.render(hombre.torso, 93, 155, (159 * escala), (158 * escala));
 			case 1:
 			hombre.render(hombre.cabeza, 45, -10, (396 * escala),  (442 * escala));
-
 			console.log("se va a iterar con " + fallos +" intentos");
 		}
 	}
@@ -73,19 +86,22 @@ function iniciar ()
 		console.log("inicia funcion ciclo");
 		var l = document.getElementById('letra');
 		encontrada = false;
-		console.log("Empiezas con " + hombre.intentos +" intentos");
+		console.log("Empiezas con " + hombre.intentos +" intentos y con " + hombre.aciertos +" aciertos.");
 		console.log("encontrada es false, por ahora")
 		letra = l.value;
 		letra = letra.toUpperCase();
 		var pista = document.getElementById("pista");
-	for (var i = 0; i < palabra.length; i++)
+	for (var i = 0; i <= palabra.length; i++)
 		{
+			console.log(a[i] + "= " + letra);
+			console.log(a[i] == letra);
 		if (a[i] == letra) 
 			{
 				encontrada = true;
+				hombre.aciertos ++;
 				b[i] = letra;
 				this.blabla = b.join(" ");
-				console.log("encontrada es true");
+				console.log("encontrada es true y tienes " + hombre.aciertos +" aciertos.");
 				console.log(b);
 			}
 		else {blabla = b.join(" ");};
@@ -96,6 +112,10 @@ function iniciar ()
 	if (encontrada == true) 
 		{
 			console.log("encontrada, sin trazo");
+			if (hombre.aciertos == palabra.length) 
+				{
+					alert("FELICIDADES!! has ganado!!!");
+				};
 		} 
 		else
 			{
@@ -106,7 +126,11 @@ function iniciar ()
 			console.log("ya llevas " + hombre.intentos + " intentos");
 			if (hombre.intentos >= hombre.maximo) 
 				{
-					console.log("Has perdido, buscate un diccionario!!")
+					console.log("Has perdido, buscate un diccionario!!");
+					blabla = a;
+					a = a.join(" ");
+					pista.innerText = a;
+					console.log(pista.innerText);
 					alert("Has perdido, buscate un diccionario!!");
 				}
 			};
